@@ -29,9 +29,9 @@ const Login = () => {
 				const data = await response.json();
 				console.log(data);
 				toast.success("Login successful");
-        setTimeout(() => {
-          navigator('/')
-        }, 3000);
+				setTimeout(() => {
+					navigator("/");
+				}, 3000);
 			} else {
 				console.log("Wrong credentials");
 			}
@@ -46,27 +46,27 @@ const Login = () => {
 			<div className="container my-3 py-3">
 				<h1 className="text-center">Login</h1>
 				<hr />
-				<div class="row my-4 h-100">
+				<div className="row my-4 h-100">
 					<div className="col-md-4 col-lg-4 col-sm-8 mx-auto">
 						<form>
-							<div class="my-3">
-								<label for="display-4">School-ID</label>
+							<div className="my-3">
+								<label htmlFor="display-4">School-ID</label>
 								<input
 									value={school_id}
 									onChange={(e) => setSchoolId(e.target.value)}
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="school_id"
 									placeholder="123-0123"
 								/>
 							</div>
-							<div class="my-3">
-								<label for="floatingPassword display-4">Password</label>
+							<div className="my-3">
+								<label htmlFor="floatingPassword display-4">Password</label>
 								<input
 									value={password}
 									onChange={(e) => setPassword(e.target.value)}
 									type="password"
-									class="form-control"
+									className="form-control"
 									id="floatingPassword"
 									placeholder="Password"
 								/>
@@ -82,7 +82,7 @@ const Login = () => {
 							<div className="text-center">
 								<button
 									onClick={hanldeLogin}
-									class="my-2 mx-auto btn btn-dark"
+									className="my-2 mx-auto btn btn-dark"
 									type="submit">
 									Login
 								</button>

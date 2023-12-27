@@ -21,6 +21,8 @@ import {
 import Dashboard from "./pages/Dashboard";
 import AddProducts from "./pages/AddProducts";
 import AdminNav from "./pages/AdminNav";
+import "./App.css";
+import "./index.css";
 
 function App() {
 	return (
