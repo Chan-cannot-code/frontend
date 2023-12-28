@@ -17,6 +17,9 @@ const Dashboard = () => {
 
 	const token = localStorage.getItem("token");
 	const school_id = localStorage.getItem("school_id");
+	const [userListings, setUserListings] = useState([]);
+	const [isEditModal, setOpenEditModal] = useState(false);
+	const [editProductData, setEditProductData] = useState([]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -47,8 +50,6 @@ const Dashboard = () => {
 			// Handle error
 		}
 	};
-
-	const [userListings, setUserListings] = useState([]);
 
 	const getUserListings = async () => {
 		const res = await fetch(
@@ -92,15 +93,18 @@ const Dashboard = () => {
 		getUserListings();
 	}, []);
 
-	const [isEditModal, setOpenEditModal] = useState(false);
-
-	const [editProductData, setEditProductData] = useState([]);
-
 	const openEditModal = (product) => {
 		console.log(product);
 		setOpenEditModal(true);
 		setEditProductData(product);
 		window.scrollTo({ top: 0 });
+	};
+
+	const onChangeCloseModal = (value) => {
+		console.log(value);
+		if (value) {
+			setOpenEditModal(false);
+		}
 	};
 
 	return (
@@ -109,7 +113,10 @@ const Dashboard = () => {
 			<ToastContainer />
 			<div className="container my-5">
 				{isEditModal ? (
-					<EditProductModal editProductData={editProductData} />
+					<EditProductModal
+						editProductData={editProductData}
+						openEditModal={(value) => onChangeCloseModal(value)}
+					/>
 				) : (
 					<div className="card bg-dark text-white border-0 p-4">
 						<h1 className="mb-4">Welcome to your dashboard!</h1>

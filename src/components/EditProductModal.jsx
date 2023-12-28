@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const EditProductModal = ({ editProductData }) => {
+export const EditProductModal = ({ editProductData, onChangeCloseModal }) => {
 	const [name, setProductName] = useState("");
 	const [price, setPrice] = useState("");
 	const [quantity, setQuantity] = useState(0);
@@ -43,6 +43,11 @@ export const EditProductModal = ({ editProductData }) => {
 				window.location.reload();
 			}, 3000);
 		}
+	};
+
+	const handleCloseModal = () => {
+		console.log("closing modal");
+		onChangeCloseModal(true);
 	};
 
 	return (
@@ -141,10 +146,15 @@ export const EditProductModal = ({ editProductData }) => {
 						required
 					/>
 				</div>
+			</form>
+			<div className="d-flex justify-content-end">
+				<button onClick={handleCloseModal} className="btn btn-danger me-2">
+					Cancel
+				</button>
 				<button onClick={handleSubmit} className="btn btn-primary">
 					Update product
 				</button>
-			</form>
+			</div>
 		</div>
 	);
 };

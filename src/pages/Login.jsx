@@ -27,7 +27,6 @@ const Login = () => {
 			});
 
 			const data = await response.json();
-			console.log(data);
 
 			if (response.ok) {
 				localStorage.setItem("full_name", data.user?.fullname);

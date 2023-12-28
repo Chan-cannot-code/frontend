@@ -21,6 +21,25 @@ const Navbar = () => {
 		}
 	}, []);
 
+	const history = useNavigate();
+
+	// You might have a function to check if the user is authenticated
+	const isAuthenticated = () => {
+		// Implement your logic to check if the user is authenticated using the token
+		// For example, you can check if the token exists in local storage
+		return localStorage.getItem("token") !== null;
+	};
+
+	const handleDashboardClick = () => {
+		if (isAuthenticated()) {
+			history("/dashboard");
+		} else {
+			// Redirect to the login page or show a login modal
+			// You can customize this based on your authentication flow
+			history("/login");
+		}
+	};
+
 	// handle logout
 
 	const handleLogout = async () => {
@@ -85,9 +104,9 @@ const Navbar = () => {
 							</NavLink>
 						</li>
 						<li className="nav-item">
-							<NavLink className="nav-link" to="/dashboard">
+							<p className="nav-link cursor-pointer" onClick={handleDashboardClick}>
 								Dashboard
-							</NavLink>
+							</p>
 						</li>
 					</ul>
 					<div className="buttons text-center d-flex align-items-center">
