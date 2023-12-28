@@ -3,7 +3,6 @@ import { Footer, Navbar } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { json } from "react-router-dom/dist";
 
 const Register = () => {
 	const [fullname, setFullname] = useState("");
@@ -32,14 +31,21 @@ const Register = () => {
 			});
 
 			const data = await response.json();
-			console.log(data);
 
 			if (response.ok) {
-				const json = await response.json();
 				toast.success("Registration successful");
 				setTimeout(() => {
 					navigate("/login");
 				}, 3000);
+			} else {
+				if (data.errors && Object.keys(data.errors).length > 0) {
+					Object.keys(data.errors).forEach((errorType) => {
+						const errorMessage = data.errors[errorType][0];
+						toast.error(errorMessage);
+					});
+				} else {
+					toast.error("Error creating account");
+				}
 			}
 		} catch (error) {
 			console.error("Registration failed:", error);
@@ -50,6 +56,7 @@ const Register = () => {
 	return (
 		<>
 			<Navbar />
+			<ToastContainer />
 			<div className="container my-3 py-3">
 				<h1 className="text-center">Register</h1>
 				<hr />

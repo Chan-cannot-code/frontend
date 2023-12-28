@@ -104,6 +104,7 @@ const Dashboard = () => {
 		console.log(value);
 		if (value) {
 			setOpenEditModal(false);
+			window.location.reload();
 		}
 	};
 
@@ -115,7 +116,7 @@ const Dashboard = () => {
 				{isEditModal ? (
 					<EditProductModal
 						editProductData={editProductData}
-						openEditModal={(value) => onChangeCloseModal(value)}
+						onChangeCloseModal={(value) => onChangeCloseModal(value)}
 					/>
 				) : (
 					<div className="card bg-dark text-white border-0 p-4">
