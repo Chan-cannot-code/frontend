@@ -52,9 +52,9 @@ const Cart = () => {
 										<h5 className="mb-0">Item List</h5>
 									</div>
 									<div>
-										{state.map((item) => {
+										{state.map((item, index) => {
 											return (
-												<div className="card-body" key={item.id}>
+												<div className="card-body" key={index}>
 													<div className="row">
 														<div className="col">
 															<div className="bg-image rounded">
@@ -72,19 +72,21 @@ const Cart = () => {
 														<div className="col-lg-4 col-md-6">
 															<div className="d-flex mb-4" style={{ maxWidth: "300px" }}>
 																<button
-																	className="btn  px-3"
+																	className="btn btn-dark  px-3"
 																	onClick={() => {
 																		removeItem(item);
 																	}}>
-																	<i className="fas fa-minus">-</i>
+																	+
 																</button>
-																<p className="mx-5">Quantity: {item.quantity}</p>
+																<p className="mx-5">
+																	Quantity: ({totalItems})<span>${Math.round(subtotal)}</span>
+																</p>
 																<button
-																	className="btn px-3"
+																	className="btn btn-dark px-3"
 																	onClick={() => {
 																		addItem(item);
 																	}}>
-																	<i className="fas fa-plus">+</i>
+																	+
 																</button>
 															</div>
 															<p className="text-start text-md-center">

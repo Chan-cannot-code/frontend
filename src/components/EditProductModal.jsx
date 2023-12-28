@@ -37,6 +37,7 @@ export const EditProductModal = ({ editProductData, onChangeCloseModal }) => {
 				body: formData,
 			},
 		);
+
 		if (res.ok) {
 			toast.success("Updated product");
 			setTimeout(() => {
