@@ -3,6 +3,7 @@ import { Navbar, Footer } from "../components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, Link } from "react-router-dom";
+import { EditProductModal } from "../components/EditProductModal";
 
 const Dashboard = () => {
 	const [name, setProductName] = useState("");
@@ -91,110 +92,125 @@ const Dashboard = () => {
 		getUserListings();
 	}, []);
 
+	const [isEditModal, setOpenEditModal] = useState(false);
+
+	const [editProductData, setEditProductData] = useState([]);
+
+	const openEditModal = (product) => {
+		console.log(product);
+		setOpenEditModal(true);
+		setEditProductData(product);
+		window.scrollTo({ top: 0 });
+	};
+
 	return (
 		<>
 			<Navbar />
 			<ToastContainer />
 			<div className="container my-5">
-				<div className="card bg-dark text-white border-0 p-4">
-					<h1 className="mb-4">Welcome to your dashboard!</h1>
-					<form onSubmit={handleSubmit}>
-						<div className="mb-3">
-							<label htmlFor="productTitle" className="form-label">
-								Product Name
-							</label>
-							<input
-								type="text"
-								className="form-control"
-								id="productTitle"
-								placeholder="Product name"
-								value={name}
-								onChange={(e) => setProductName(e.target.value)}
-								required
-							/>
-						</div>
-						<div className="mb-3">
-							<label htmlFor="price" className="form-label">
-								Price
-							</label>
-							<input
-								type="number"
-								className="form-control"
-								id="price"
-								placeholder="Price"
-								value={price}
-								onChange={(e) => setPrice(e.target.value)}
-								required
-							/>
-						</div>
-						<div className="mb-3">
-							<label htmlFor="price" className="form-label">
-								Quantity
-							</label>
-							<input
-								type="number"
-								className="form-control"
-								id="price"
-								placeholder="quantity"
-								value={quantity}
-								onChange={(e) => setQuantity(e.target.value)}
-								required
-							/>
-						</div>
-						<div className="mb-3">
-							<label htmlFor="itemDescription" className="form-label">
-								Item Description
-							</label>
-							<textarea
-								className="form-control"
-								id="itemDescription"
-								placeholder="Item Description"
-								value={description}
-								onChange={(e) => setItemDescription(e.target.value)}
-								required
-							/>
-						</div>
-						<div className="mb-3">
-							<label htmlFor="itemCategory" className="form-label">
-								Category
-							</label>
-							<select
-								className="form-control"
-								id="itemCategory"
-								value={category}
-								onChange={(e) => setCategory(e.target.value)}
-								required>
-								<option value="" disabled>
-									Select category
-								</option>
-								<option value="mensClothing">Men's Clothing</option>
-								<option value="womensClothing">Women's Clothing</option>
-								<option value="jewelry">Jewelry</option>
-								<option value="electronics">Electronics</option>
-							</select>
-						</div>
+				{isEditModal ? (
+					<EditProductModal editProductData={editProductData} />
+				) : (
+					<div className="card bg-dark text-white border-0 p-4">
+						<h1 className="mb-4">Welcome to your dashboard!</h1>
+						<form onSubmit={handleSubmit}>
+							<div className="mb-3">
+								<label htmlFor="productTitle" className="form-label">
+									Product Name
+								</label>
+								<input
+									type="text"
+									className="form-control"
+									id="productTitle"
+									placeholder="Product name"
+									value={name}
+									onChange={(e) => setProductName(e.target.value)}
+									required
+								/>
+							</div>
+							<div className="mb-3">
+								<label htmlFor="price" className="form-label">
+									Price
+								</label>
+								<input
+									type="number"
+									className="form-control"
+									id="price"
+									placeholder="Price"
+									value={price}
+									onChange={(e) => setPrice(e.target.value)}
+									required
+								/>
+							</div>
+							<div className="mb-3">
+								<label htmlFor="price" className="form-label">
+									Quantity
+								</label>
+								<input
+									type="number"
+									className="form-control"
+									id="price"
+									placeholder="quantity"
+									value={quantity}
+									onChange={(e) => setQuantity(e.target.value)}
+									required
+								/>
+							</div>
+							<div className="mb-3">
+								<label htmlFor="itemDescription" className="form-label">
+									Item Description
+								</label>
+								<textarea
+									className="form-control"
+									id="itemDescription"
+									placeholder="Item Description"
+									value={description}
+									onChange={(e) => setItemDescription(e.target.value)}
+									required
+								/>
+							</div>
+							<div className="mb-3">
+								<label htmlFor="itemCategory" className="form-label">
+									Category
+								</label>
+								<select
+									className="form-control"
+									id="itemCategory"
+									value={category}
+									onChange={(e) => setCategory(e.target.value)}
+									required>
+									<option value="" disabled>
+										Select category
+									</option>
+									<option value="mensClothing">Men's Clothing</option>
+									<option value="womensClothing">Women's Clothing</option>
+									<option value="jewelry">Jewelry</option>
+									<option value="electronics">Electronics</option>
+								</select>
+							</div>
 
-						<div className="mb-3">
-							<label htmlFor="image" className="form-label">
-								Image
-							</label>
-							<input
-								type="file"
-								className="form-control"
-								id="image"
-								accept="image/*"
-								onChange={(e) => {
-									const file = e.target.files[0];
-									setImage(file);
-								}}
-								required
-							/>
-						</div>
-						<button onClick={handleSubmit} className="btn btn-primary">
-							Add Item
-						</button>
-					</form>
-				</div>
+							<div className="mb-3">
+								<label htmlFor="image" className="form-label">
+									Image
+								</label>
+								<input
+									type="file"
+									className="form-control"
+									id="image"
+									accept="image/*"
+									onChange={(e) => {
+										const file = e.target.files[0];
+										setImage(file);
+									}}
+									required
+								/>
+							</div>
+							<button onClick={handleSubmit} className="btn btn-primary">
+								Add Item
+							</button>
+						</form>
+					</div>
+				)}
 				<div className="mt-5">
 					<h2>My Product Listings</h2>
 					<div className="row mt-5">
@@ -217,10 +233,13 @@ const Dashboard = () => {
 										</div>
 										<ul className="list-group list-group-flush">
 											<li className="list-group-item lead">$ {product.price}</li>
-											{/* <li className="list-group-item">Dapibus ac facilisis in</li>
-	                   <li className="list-group-item">Vestibulum at eros</li> */}
 										</ul>
 										<div className="card-body">
+											<button
+												onClick={() => openEditModal(product.product_id)}
+												className="btn btn-primary">
+												Update
+											</button>
 											<button
 												onClick={() => handleRemoveProduct(product.product_id)}
 												className="btn btn-danger m-1">
