@@ -6,24 +6,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { json } from "react-router-dom/dist";
 
 const Register = () => {
-	const url = "http://backend.test";
-	// const [formData, setFormData] = useState({
-	// 	fullname: "",
-	// 	school_id: "",
-	// 	custom_email: "",
-	// 	password: "",
-	// });
-
 	const [fullname, setFullname] = useState("");
 	const [school_id, setSchoolId] = useState("");
 	const [custom_email, setCustomEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	const navigate = useNavigate();
-
-	// const handleChange = (e) => {
-	// 	setFormData({ ...formData, [e.target.name]: e.target.value });
-	// };
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -42,6 +30,9 @@ const Register = () => {
 					password,
 				}),
 			});
+
+			const data = await response.json();
+			console.log(data);
 
 			if (response.ok) {
 				const json = await response.json();

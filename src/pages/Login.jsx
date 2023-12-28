@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Footer, Navbar } from "../components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../App.css";
 
 const Login = () => {
 	const [school_id, setSchoolId] = useState("");
@@ -25,15 +26,20 @@ const Login = () => {
 				}),
 			});
 
+			const data = await response.json();
+			console.log(data);
+
 			if (response.ok) {
-				const data = await response.json();
-				console.log(data);
+				localStorage.setItem("full_name", data.user?.fullname);
+				localStorage.setItem("custom_email", data.user?.custom_email);
+				localStorage.setItem("token", data.token);
+				localStorage.setItem("school_id", data.user?.school_id);
 				toast.success("Login successful");
 				setTimeout(() => {
 					navigator("/");
 				}, 3000);
 			} else {
-				console.log("Wrong credentials");
+				toast.error(data.message);
 			}
 		} catch (err) {
 			console.log(err);
@@ -43,7 +49,8 @@ const Login = () => {
 	return (
 		<>
 			<Navbar />
-			<div className="container my-3 py-3">
+			<ToastContainer />
+			<div className="container my-3 py-3 w-full">
 				<h1 className="text-center">Login</h1>
 				<hr />
 				<div className="row my-4 h-100">
