@@ -64,7 +64,7 @@ const Product = () => {
   const ShowProduct = () => {
     return (
       <>
-        <div className="container my-5 py-2">
+        <div className="my-5 py-2">
           <div className="row">
             <div className="col-md-6 col-sm-12 py-3">
               <img

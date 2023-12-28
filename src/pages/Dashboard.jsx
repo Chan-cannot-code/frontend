@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar, Footer } from "../components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Dashboard = () => {
 	const [name, setProductName] = useState("");
@@ -28,22 +28,15 @@ const Dashboard = () => {
 		formData.append("category", category);
 		formData.append("image", image);
 
-		console.log(quantity);
-
 		const res = await fetch("http://127.0.0.1:8000/api/add-item", {
 			method: "POST",
 			headers: {
 				// "Content-Type": "application/json",
-				Accept: "application/json",
+				// Accept: "application/json",
 				Authorization: `Bearer ${token}`,
 			},
 			body: formData,
 		});
-
-		const data = await res.json();
-
-		console.log(data);
-
 		if (res.ok) {
 			toast.success("Product added to Carsumart!");
 			setTimeout(() => {
@@ -53,6 +46,50 @@ const Dashboard = () => {
 			// Handle error
 		}
 	};
+
+	const [userListings, setUserListings] = useState([]);
+
+	const getUserListings = async () => {
+		const res = await fetch(
+			`http://127.0.0.1:8000/api/display-user-listing/${school_id}`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+		if (res.ok) {
+			const data = await res.json();
+			setUserListings(data.data);
+		}
+	};
+
+	const handleRemoveProduct = async (product) => {
+		console.log(product);
+		const res = await fetch(
+			`http://127.0.0.1:8000/api/delete-user-listing/${product}`,
+			{
+				method: "DELETE",
+				headers: {
+					Accept: "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+		if (res.ok) {
+			toast.success("Remove item permanently");
+			setTimeout(() => {
+				window.location.reload();
+			}, 2000);
+		}
+	};
+
+	useEffect(() => {
+		getUserListings();
+	}, []);
 
 	return (
 		<>
@@ -81,7 +118,7 @@ const Dashboard = () => {
 								Price
 							</label>
 							<input
-								type="text"
+								type="number"
 								className="form-control"
 								id="price"
 								placeholder="Price"
@@ -95,7 +132,7 @@ const Dashboard = () => {
 								Quantity
 							</label>
 							<input
-								type="text"
+								type="number"
 								className="form-control"
 								id="price"
 								placeholder="quantity"
@@ -118,18 +155,25 @@ const Dashboard = () => {
 							/>
 						</div>
 						<div className="mb-3">
-							<label htmlFor="itemDescription" className="form-label">
+							<label htmlFor="itemCategory" className="form-label">
 								Category
 							</label>
-							<textarea
+							<select
 								className="form-control"
-								id="itemDescription"
-								placeholder="Item category"
+								id="itemCategory"
 								value={category}
 								onChange={(e) => setCategory(e.target.value)}
-								required
-							/>
+								required>
+								<option value="" disabled>
+									Select category
+								</option>
+								<option value="mensClothing">Men's Clothing</option>
+								<option value="womensClothing">Women's Clothing</option>
+								<option value="jewelry">Jewelry</option>
+								<option value="electronics">Electronics</option>
+							</select>
 						</div>
+
 						<div className="mb-3">
 							<label htmlFor="image" className="form-label">
 								Image
@@ -152,14 +196,42 @@ const Dashboard = () => {
 					</form>
 				</div>
 				<div className="mt-5">
-					<h2>Recent Transactions</h2>
-					<ul className="list-group">
-						{/* {recentTransactions.map((transaction) => (
-              <li key={transaction.id} className="list-group-item">
-                {transaction.description}
-              </li>
-            ))} */}
-					</ul>
+					<h2>My Product Listings</h2>
+					<div className="row mt-5">
+						{userListings.map((product, index) => {
+							return (
+								<div
+									id={product.product_id}
+									key={index}
+									className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4">
+									<div className="card text-center h-100">
+										<img
+											className="card-img-top p-3"
+											src={product?.image_url}
+											alt={product.name}
+											height={300}
+										/>
+										<div className="card-body">
+											<h5 className="card-title">{product.name}</h5>
+											<p className="card-text">{product.description}</p>
+										</div>
+										<ul className="list-group list-group-flush">
+											<li className="list-group-item lead">$ {product.price}</li>
+											{/* <li className="list-group-item">Dapibus ac facilisis in</li>
+	                   <li className="list-group-item">Vestibulum at eros</li> */}
+										</ul>
+										<div className="card-body">
+											<button
+												onClick={() => handleRemoveProduct(product.product_id)}
+												className="btn btn-danger m-1">
+												Remove
+											</button>
+										</div>
+									</div>
+								</div>
+							);
+						})}
+					</div>
 				</div>
 			</div>
 			<Footer />

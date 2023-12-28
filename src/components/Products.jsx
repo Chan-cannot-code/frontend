@@ -23,7 +23,6 @@ const Products = () => {
 		setLoading(true);
 		const response = await fetch("http://127.0.0.1:8000/api/display-products");
 		const data = await response.json();
-		console.log(data);
 		if (componentMounted) {
 			setData(data);
 			setLoading(false);
