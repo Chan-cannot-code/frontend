@@ -1,0 +1,31 @@
+.cursor-pointer {
+ cursor: pointer;
+}
+
+.img_text {
+ font-size: 12px;
+}
+
+.img_label_container {
+ height: 100px;
+ width: 100px;
+}
+
+.selected_img {
+ max-width: 100px;
+ max-height: 100px;
+}
+
+.toaster {
+ z-index: 1000000;
+}
+
+.category_text {
+ font-size: 12px;
+}
+
+.c-image {
+ height: 350px;
+ object-fit: cover;
+ object-position: center;
+}
